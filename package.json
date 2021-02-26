@@ -1,0 +1,33 @@
+{
+  "name": "funny-bot",
+  "version": "1.0.0",
+  "description": "bot",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xWhit3e",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.4.0",
+    "@sindresorhus/slugify": "^1.1.0",
+    "ascii-table": "0.0.9",
+    "axios": "^0.21.1",
+    "chalk": "^4.1.0",
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "^0.12.2",
+    "dotenv": "^8.2.0",
+    "ffmpeg": "0.0.4",
+    "fs": "0.0.1-security",
+    "js-helpers": "^1.0.0",
+    "js-yaml": "^4.0.0",
+    "knowledge": "^0.2.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.11.18",
+    "ms": "^2.1.3",
+    "path": "^0.12.7",
+    "voice": "0.0.0",
+    "yt-search": "^2.7.3",
+    "ytdl-core": "^4.5.0"
+  }
+}
