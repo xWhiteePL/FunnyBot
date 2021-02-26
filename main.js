@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const client = new Discord.Client();
+const { Client } = require("discord.js");
+const keepAlive = require('./server.js');
  
 const fs = require('fs');
 const { CommandoClient } = require('discord.js-commando');
@@ -23,5 +25,7 @@ client.events = new Discord.Collection();
 ['command_handler', 'event_handler'].forEach(handler => {
     require(`./handlers/${handler}`)(client, Discord);
 });
+
+keepAlive();
 
 client.login(process.env.DISCORD_TOKEN);
