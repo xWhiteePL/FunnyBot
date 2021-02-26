@@ -3,16 +3,12 @@ require('dotenv').config();
 const client = new Discord.Client();
 const { Client } = require("discord.js");
 const keepAlive = require('./server.js');
-const db = require('mongoose');
+const mongoose = require('mongoose');
  
 const fs = require('fs');
 const { CommandoClient } = require('discord.js-commando');
 
-const dbOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: true,
-}
+
 
 client.on('guildMemberAdd', guildMember =>{
     let welcomeRole = guildMember.guild.roles.cache.find(role => role.name === '𝚄𝚜𝚎𝚛');
@@ -23,8 +19,16 @@ client.on('guildMemberAdd', guildMember =>{
     guildMember.roles.add(welcomeRole2);
     guildMember.roles.add(welcomeRole3);
     guildMember.guild.channels.cache.get('814434177717370900').send(`Siema <@${guildMember.user.id}>! Pamietaj o sprawdzeniu regulaminu!`);
-    await db.connect(process.env.MONGO_DB, dbOptions)
-        .then(console.log('MongoDB jest online'));
+});
+
+mongoose.connect(process.env.MONGO_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+}).then(()=> {
+    console.log('MongoDB jest online')
+}).catch((err) => {
+    console.log(err)
 });
 
 
