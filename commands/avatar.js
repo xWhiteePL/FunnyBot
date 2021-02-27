@@ -1,18 +1,20 @@
 module.exports = {
     name: 'avatar',
     aliases: ['icon', 'pfp', 'profilepic'],
+    cooldown: 60,
     description: 'Pokazuje avatar uzytkownika!',
-    execute(client, message, cmd, args) {
+    execute(client, message, cmd, args, Discord) {
 
-        if (!message.mentions.users.size) {
-            return message.channel.send(`**Twoj avatar: ** ${message.author.displayAvatarURL({ dynamic: true })}`);
-        }
+        let member = message.mentions.users.first() || message.author
 
-        const avatar_list = message.mentions.users.map(user => {
-            return `**Avatar uzytkownika ${user.username}: ** ${user.displayAvatarURL({ dynamic: true })}`;
-        });
+        let avatar = member.displayAvatarURL({size: 1024})
 
-        message.channel.send(avatar_list);
-        message.delete();
+
+        let embed = new Discord.MessageEmbed()
+        .setTitle(`Avatar ${member.username}`)
+        .setImage(avatar)
+        .setColor("RANDOM")
+
+        message.channel.send(embed);
     }
 }

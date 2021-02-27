@@ -17,18 +17,21 @@ module.exports = {
         let reason = args.slice(1).join(' ');
         if(!reason) 
             reason = ("Brak!");
+        let sicon = message.mentions.users.first().displayAvatarURL();
         member.kick(reason)
             .catch(error => message.channel.send(`Przepraszam ${message.author}, nie mogę wyrzucic tego uzytkownika. Problem: ${error}`));
             let embed = new MessageEmbed()
-            .setAuthor("Ogloszenie!")
+            .setAuthor("Kick!", sicon)
             .setDescription(`${member} zostal wyrzucony przez ${message.author}`)
             .addField(`Powod:`, `${reason}`)
+            .setThumbnail(sicon)
             .setColor("#FF0000")
             .setTimestamp();
             let pw = new MessageEmbed()
-            .setAuthor("Ogloszenie!")
+            .setAuthor("Kick! (Funny Discord)")
             .setDescription(`Zostales wyrzucony przez ${message.author} (Funny Discord)`)
             .addField(`Powod:`, `${reason}`)
+            .setThumbnail(sicon)
             .setColor("#FF0000")
             .setTimestamp();
             message.channel.send(embed);
@@ -37,7 +40,7 @@ module.exports = {
             const guild = client.guilds.cache.get('813728700083339274');
             const channel = message.guild.channels.cache.get('814097618941771817');
             let log = new MessageEmbed()
-            .setAuthor("Log!")
+            .setAuthor("Log! (Mute)")
             .setDescription(`${message.member} wyrzucil uzytkownika ${member} za ${reason}!`)
             .setColor("#FF0000")
             .setTimestamp();

@@ -29,10 +29,10 @@ module.exports = {
             return onlineCount;
         }
     
-        let sicon = message.guild.iconURL;
+        let sicon = message.guild.iconURL();
 
         const serverembed = new MessageEmbed()
-            .setAuthor(`${message.guild.name} - Informacje`, message.guild.iconURL)
+            .setAuthor(`${message.guild.name} - Informacje`, message.member.displayAvatarURL())
             .setColor("#15f153")
             .addField('Wlasciciel:', 'xWhit3e#7457', true)
             .addField('Region Serwera:', 'Europa', true)

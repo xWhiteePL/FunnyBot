@@ -51,14 +51,15 @@ if (rate === '0') {
     .addField('Czas', `\`${rate}\``, true)
     .addField('Powod', reason)
   );
+  message.delete();
   const guild = client.guilds.cache.get('813728700083339274');
-  const channel = message.guild.channels.cache.get('814097618941771817');
+  const channell = message.guild.channels.cache.get('814097618941771817');
   let log = new MessageEmbed()
   .setAuthor("Log!")
   .setDescription(`${message.member} wlaczyl slowmode na kanale ${message.channel} z opoznieniem \`${rate}s\` `)
   .setColor("#FF0000")
   .setTimestamp();
-  channel.send(log);
+  channell.send(log);
 }
 }
 };

@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ban',
-    cooldown: 1,
+    cooldown: 0,
     description: "Komenda sluzaca do banowania uzytkownikow!",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
         let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

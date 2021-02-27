@@ -1,7 +1,7 @@
 module.exports = {
     name: 'clear',
     alises: ['c', 'purge'],
-    cooldown: 3,
+    cooldown: 0,
     description: "Usuwa dana liczbe wiadomosci!",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
         if(!message.member.hasPermission("MANAGE_MESSAGES")){

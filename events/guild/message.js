@@ -1,7 +1,23 @@
 require('dotenv').config();
 const fs = require('fs');
 const cooldowns = new Map();
+const { Client } = require("discord.js");
+const Levels = require('discord-xp');
 module.exports = (Discord, client, message) => {
+  Levels.setURL("")
+  client.on("message", async message => {
+    const randomXp = Math.floor(Math.random() * 9) + 1; //Random amont of XP until the number you want + 1
+    const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
+    if (hasLeveledUp) {
+        const user = await Levels.fetch(message.author.id, message.guild.id);
+        message.channel.send(`${message.member} awansowales na ${user.level} poziom! Tak trzymaj!`);
+        if (user.level === 10) {
+          let levelrole = message.member.guild.roles.cache.find(role => role.name === '𝗟𝗲𝘃𝗲𝗹');
+          message.member.roles.add(levelrole);
+          message.member.send(`Otrzymales role za 10 poziom!`);
+        }
+    }
+})
     const prefix = process.env.PREFIX;
     if (!message.content.startsWith(prefix)) return;
 
@@ -10,8 +26,9 @@ module.exports = (Discord, client, message) => {
     const command = client.commands.get(cmd) ||
         client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
-    if (!cooldowns.has(command.name)) {
-        cooldowns.set(command.name, new Discord.Collection());
+    if(command){
+      if(!cooldowns.has(command.name)){
+      cooldowns.set(command.name, new Discord.Collection());
     }
 
     const current_time = Date.now();
@@ -38,4 +55,5 @@ module.exports = (Discord, client, message) => {
         message.reply('Wystapil problem przy probie wykonania komendy.');
         console.log(err);
     }
-};
+}
+}

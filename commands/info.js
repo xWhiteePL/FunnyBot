@@ -18,10 +18,10 @@ module.exports = {
         
             const embed = new Discord.MessageEmbed()
                 .setDescription(`<@${member.user.id}>`)
-                .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL)
+                .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
                 .setColor(randomColor)
                 .setFooter(`ID: ${message.author.id}`)
-                .setThumbnail(member.user.displayAvatarURL)
+                .setThumbnail(member.user.displayAvatarURL())
                 .setTimestamp()
                 .addField("Status",`${status[member.user.presence.status]}`, true)
                 .addField('Dolaczyl: ',`${moment(member.joinedAt).format("DD.MM.YYYY,\n HH:mm")}`, true)
