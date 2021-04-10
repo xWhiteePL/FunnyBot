@@ -57,7 +57,7 @@ module.exports = {
                 const logchannel = message.guild.channels.cache.get('814097618941771817');
                 let log = new MessageEmbed()
                 .setAuthor("Log! (Ticket)")
-                .setDescription(`${message.member} otworzyl nowy ticket!`)
+                .setDescription(`${message.member} otworzył nowy ticket!`)
                 .addField(`Temat ticketu`, `\`${reason}\``)
                 .setColor("#FF0000")
                 .setTimestamp();
@@ -94,5 +94,6 @@ module.exports = {
 			} catch (e) {
 				console.log(e);
 			}
-		}
+    }
+    }
 }

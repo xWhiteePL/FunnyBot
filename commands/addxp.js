@@ -7,9 +7,9 @@ module.exports = {
     async execute(client, message, cmd, args, Discord, MessageEmbed, prefix) {
       if(!message.member.permissions.has('ADMINISTRATOR')) return;
       const ilosc = args[0];
-      if(isNaN(ilosc)) return message.channel.send('Podaj wlasciwa cyfre');
+      if(isNaN(ilosc)) return message.channel.send('Podaj właściwą cyfrę');
       Levels.appendXp(message.author.id, message.guild.id, ilosc);
-      message.channel.send(`Gratuluje, na twoje konto wplynelo ${ilosc} XP`);
+      message.channel.send(`Gratuluje, na twoje konto wpłynęło ${ilosc} XP`);
       message.delete();
     }
 }

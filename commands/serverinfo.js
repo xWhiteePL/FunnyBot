@@ -1,6 +1,6 @@
 module.exports = {
     name: 'serverinfo',
-    alises: ['sinfo', 'server'],
+    aliases: ['sinfo', 'server'],
     cooldown: 3,
     description: "Pokazuje informacje na temat serwera!",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
@@ -34,13 +34,13 @@ module.exports = {
         const serverembed = new MessageEmbed()
             .setAuthor(`${message.guild.name} - Informacje`, message.member.displayAvatarURL())
             .setColor("#15f153")
-            .addField('Wlasciciel:', 'xWhit3e#7457', true)
+            .addField('Właściciel:', 'xWhit3e#7457', true)
             .addField('Region Serwera:', 'Europa', true)
             .setThumbnail(sicon)
             .addField("Nazwa Serwera:", message.guild.name)
             .addField('Poziom Weryfikacji:', message.guild.verificationLevel, true)
-            .addField('Ilosc Kanalow:', message.guild.channels.cache.size, true)
-            .addField('Laczna liczba czlonkow:', message.guild.memberCount)
+            .addField('Ilość Kanałów:', message.guild.channels.cache.size, true)
+            .addField('Łączna liczba członków:', message.guild.memberCount)
             .addField('Ludzie:', checkMembers(message.guild), true)
             .addField('Boty:', checkBots(message.guild), true)
             .addField('Online', checkOnlineUsers(message.guild))

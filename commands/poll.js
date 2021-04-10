@@ -8,13 +8,13 @@ module.exports = {
         const channel = message.channel;
         let question = message.content.split(`${prefix}poll `).join ("");
         if (!question){
-            return message.channel.send("Napisz tresc ankiety!");
+            return message.channel.send("Napisz treść ankiety!");
         }
         const embed = new MessageEmbed()
         .setColor("#FF0000")
-        .setTitle("Pojawila sie nowa ankieta!")
+        .setTitle("Pojawiła się nowa ankieta!")
         .setDescription(question)
-        .setFooter("No dalej, zaglosuj!")
+        .setFooter("No dalej, zagłosuj!")
         .setTimestamp();
         let msg = await client.channels.cache.get(channel.id).send(embed);
         await msg.react("👍")

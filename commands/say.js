@@ -8,8 +8,8 @@ module.exports = {
                 if(!message.member.permissions.has('MANAGE_MESSAGES')) return;
         
                 let textChannel = message.mentions.channels.first();
-                if(!args[0]) return message.channel.send('Podaj kanal na ktory mam wyslac wiadomosc!');
-                if(!args[1]) return message.channel.send('Podaj wiadomosc ktora mam wyslac!');
+                if(!args[0]) return message.channel.send('Podaj kanał na który mam wysłać wiadomość!');
+                if(!args[1]) return message.channel.send('Napisz wiadomość którą mam wysłać!');
                 if (!message.guild.channels.cache.has(textChannel.id)) return;
                 message.delete();
         
@@ -20,7 +20,7 @@ module.exports = {
                     const channel = message.guild.channels.cache.get('814097618941771817');
                     let log = new MessageEmbed()
                     .setAuthor("Log! (/say)")
-                    .setDescription(`${message.member} powiedzial \`${msg}\` za pomoca komendy /say!`)
+                    .setDescription(`${message.member} powiedział \`${msg}\` na kanale ${message.channel} za pomocą komendy /say!`)
                     .setColor("#FF0000")
                     .setTimestamp();
                     channel.send(log);

@@ -8,7 +8,7 @@ module.exports = {
     async execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
         const guild = client.guilds.cache.get('813728700083339274');
         const channel = message.guild.channels.cache.get('814409765891342337');
-        if(!channel) return message.channel.send('Kanal do bledow nie istnieje!');
+        if(!channel) return message.channel.send('Kanał do zgłaszania błędów nie istnieje!');
 
         const themat = args[0];
         const messageArgs = args.slice(1).join(' ');
@@ -19,7 +19,7 @@ module.exports = {
         .setDescription(messageArgs)
         .setFooter("👍 - Przyjete, ❌ - Odrzucone!")
         .setTimestamp();
-        message.channel.send(`Twoje zgloszenie zostalo wyslane do administracji!`);
+        message.channel.send(`Twoje zgłoszenie zostało wysłane do administracji!`);
 
         const emojix = '👍';
         const emojixx = '❌';
@@ -41,20 +41,20 @@ module.exports = {
  
             if (reaction.message.channel.id == channel) {
                 if (reaction.emoji.name === emojixx) {
-                    channel.send(`Zgloszenie o temacie '${themat}' zostalo odrzucone przez ${reaction.message.guild.members.cache.get(user.id)}!`);
-                    message.author.send(`Twoje zgloszenie o temacie '${themat}' zostalo odrzucone!`);
+                    channel.send(`Zgłoszenie o temacie '${themat}' zostało odrzucone przez ${reaction.message.guild.members.cache.get(user.id)}!`);
+                    message.author.send(`Twoje zgłoszenie o temacie '${themat}' zostalo odrzucone!`);
                     reaction.message.delete();
                 }
                 if (reaction.emoji.name === emojix) {
-                    channel.send(`Zgloszenie o temacie '${themat}' zostalo przyjete przez ${reaction.message.guild.members.cache.get(user.id)}!`);
-                    message.author.send(`Twoje zgloszenie o temacie '${themat}' zostalo przyjete!`);
+                    channel.send(`Zgłoszenie o temacie '${themat}' zostało przyjęte przez ${reaction.message.guild.members.cache.get(user.id)}!`);
+                    message.author.send(`Twoje zgłoszenie o temacie '${themat}' zostało przyjęte!`);
                     reaction.message.delete();
                     const embedfd = new Discord.MessageEmbed()
                     .setColor('FADF2E')
                     .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
                     .setTitle(themat)
                     .setDescription(messageArgs)
-                    .setFooter("Zgloszenie ktore przyjales!")
+                    .setFooter("Zgłoszenie które przyjąłes!")
                     .setTimestamp();
                     reaction.message.guild.members.cache.get(user.id).send(embedfd)
                     reaction.message.delete(3);

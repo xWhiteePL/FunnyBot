@@ -5,7 +5,7 @@ module.exports = {
     description: "Odcisza uzytkownika!",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
         if(!message.member.hasPermission("KICK_MEMBERS")){
-            message.channel.send("Nie masz uprawnień by użyć tą komendę");
+            return message.channel.send("Nie masz uprawnień by użyć tą komendę");
         }
         const target = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
         if(target){
@@ -14,8 +14,8 @@ module.exports = {
             let memberTarget= message.guild.members.cache.get(target.id);
  
             memberTarget.roles.remove(muteRole.id);
-            message.channel.send(`<@${memberTarget.user.id}> został odciszony`);
-            target.send('Zostałeś odciszony (Funny Discord)')
+            message.channel.send(`<@${memberTarget.user.id}> został(-a) odciszony`);
+            target.send('Zostałeś(-aś) odciszony (Funny Discord)')
             message.delete();
         } else{
             message.channel.send('Nie mogę znaleźć tego użytkownika!');
@@ -24,7 +24,7 @@ module.exports = {
         const channel = message.guild.channels.cache.get('814097618941771817');
         let log = new MessageEmbed()
         .setAuthor("Log! (/unmute)")
-        .setDescription(`${message.member} odciszył ${target}!`)
+        .setDescription(`${message.member} odciszył(-a) ${target}!`)
         .setColor("#FF0000")
         .setTimestamp();
         channel.send(log);

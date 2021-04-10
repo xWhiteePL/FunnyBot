@@ -5,12 +5,12 @@ module.exports = {
     cooldown: 10,
     description: "Pokazuje aktualny poziom!",
     async execute(client, message, cmd, args, Discord, MessageEmbed, prefix) {
-      let member = message.author.id || message.mentions.users.first().id;
-      let avatar = message.member.user.displayAvatarURL();
-      const user = await Levels.fetch(member, message.guild.id);
+      const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
+      let idmember = member.id;
+      const user = await Levels.fetch(idmember, message.guild.id);
       const embed = new MessageEmbed()
-      .setAuthor(`${message.member.user.tag}`, avatar)
-      .addField(`XP`, `${user.xp}`, true)
+      .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
+      .addField(`XP`, `${user.xp} (${Levels.xpFor(user.level + 1)})`, true)
       .addField(`Aktualny poziom`, `${user.level}`, true)
       .setTimestamp();
       message.channel.send(embed);

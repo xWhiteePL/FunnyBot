@@ -5,22 +5,14 @@ module.exports = {
     description: "Usuwa dana liczbe wiadomosci!",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
         if(!message.member.hasPermission("MANAGE_MESSAGES")){
-            message.channel.send("Nie posiadasz uprawnien do korzystania z tej komendy!");
+            return message.channel.send("Nie masz uprawnień by użyć tą komendę!");
         }
-        if(!args[0]) return message.reply('Podaj liczbe wiadomosci do usuniecia!');
+        if(!args[0]) return message.reply('Podaj liczbę wiadomości do usunięcia!');
         if(isNaN(args[0])) return message.reply('Uzyj cyfr!');
 
-        if(args[0] > 100) return message.reply('Mozesz usunac maksymalnie 100 wiadomosci!');
-        if(args[0] < 1) return message.reply('Podaj liczbe wieksza niz 0');
-        message.delete();
+        if(args[0] > 100) return message.reply('Możesz usunąć maksymalnie 100 wiadomości na raz!');
+        if(args[0] < 1) return message.reply('Podaj liczbę większą niż 0');
         message.channel.bulkDelete(args[0]);
-        const guild = client.guilds.cache.get('813728700083339274');
-        const channel = message.guild.channels.cache.get('814097618941771817');
-        let log = new MessageEmbed()
-        .setAuthor("Log! (/clear)")
-        .setDescription(`${message.member} usunal \`${args[0]}\` wiadomosci na kanale ${message.channel}!`)
-        .setColor("#FF0000")
-        .setTimestamp();
-        channel.send(log);
+        message.delete();
     }
 }

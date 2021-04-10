@@ -1,105 +1,76 @@
+const ms = require('ms');
+
 module.exports = {
     name: 'giveaway',
-    alises: ['event', 'ga'],
-    cooldown: 3,
-    description: "Tworzy giveaway!",
+    description: 'Tworzy giveaway!',
     async execute(client, message, cmd, args, Discord, MessageEmbed, prefix){
-        var time = '';
-        var time2 = '';
-        var time3 = '';
-        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('Nie masz odpowiednich uprawniej do stworzenia giveawaya.');
-        if (message.content === `${prefix}giveaway`) return message.channel.send(`Nie podales czasu giveawaya.`)
-        if (message.content !== `${prefix}giveaway`) {
-            const stated_duration_hours = message.content.split(' ')[1];
-            const stated_duration_hours2 = stated_duration_hours.toLowerCase();
-            if (stated_duration_hours2.includes('s')) {
-                var time = 's';
-            }
-            if (stated_duration_hours2.includes('m')) {
-                var time = 'm';
-            }
-            if (stated_duration_hours2.includes('h')) {
-                var time = 'h';
-            }
-            if (stated_duration_hours2.includes('d')) {
-                var time = 'd';
-            }
-            const stated_duration_hours3 = stated_duration_hours2.replace(time, '');
-            if (stated_duration_hours3 === '0') {
-                message.channel.send('Wartosc czasu musi wynosic conajmniej 1.');
-            }
-            if (isNaN(stated_duration_hours3)) {
-                message.channel.send('Czas musi zostac podany w odpowiedniej jednostce.');
-            }
-            if (stated_duration_hours3 < 1) {
-                var time3 = 's';
-            }
-            if (time === 's') {
-                var actual_duration_hours = stated_duration_hours3 * 1000;
-                var time2 = 'sekund';
-            }
-            if (time === 'm') {
-                var actual_duration_hours = stated_duration_hours3 * 60000;
-                var time2 = 'minut';
-            }
-            if (time === 'h') {
-                var actual_duration_hours = stated_duration_hours3 * 3600000;
-                var time2 = 'godzin';
-            }
-            if (time === 'd') {
-                var actual_duration_hours = stated_duration_hours3 * 86400000;
-                var time2 = 'dzien';
-            }
-            if (!isNaN(stated_duration_hours3)) {
-                const prize = message.content.split(' ').slice(2).join(' ');
-                if (prize === '') return message.channel.send('Napisz nagrode.');
-                if (stated_duration_hours3 !== '0') {
-                    const embed = new Discord.MessageEmbed()
-                    .setAuthor('🎉 GIVEAWAY! 🎉')
-                    .setTitle(`${prize}`)
-                    .setColor('#000000')
-                    .setDescription(`Kliknij w 🎉 aby wziasc udział!\nCzas: **${stated_duration_hours3}** ${time2}${time3}\nStworzony przez: ${message.author}`)
-                    .setTimestamp(Date.now() + (actual_duration_hours))
-                    .setFooter('Konczy sie o')
-                    let msg = await message.channel.send(embed)
-                    await msg.react('🎉')
-                    setTimeout(() => {
-                        msg.reactions.cache.get('🎉').users.remove(client.user.id)
-                        setTimeout(() => {
-                            let winner = msg.reactions.cache.get('🎉').users.cache.random();
-                            if (msg.reactions.cache.get('🎉').users.cache.size < 1) {
-                                const winner_embed = new Discord.MessageEmbed()
-                                .setAuthor('🎉 GIVEAWAY ZAKONCZONY 🎉')
-                                .setTitle(`${prize}`)
-                                .setColor('#000000')
-                                .setDescription(`Wygral/a:\nNikt nie wzial udzialu w giveaway'u.\nStworzony przez: ${message.author}`)
-                                .setTimestamp()
-                                .setFooter('Skonczony o')
-                                msg.edit(winner_embed);
-                            }
-                            if (!msg.reactions.cache.get('🎉').users.cache.size < 1) {
-                                const winner_embed = new Discord.MessageEmbed()
-                                .setAuthor('🎉 GIVEAWAY ZAKONCZONY 🎉')
-                                .setTitle(`${prize}`)
-                                .setColor('#000000')
-                                .setDescription(`Wygral/a:\n${winner}\nStworzony przez: ${message.author}`)
-                                .setTimestamp()
-                                .setFooter('Skonczony o')
-                                msg.edit(winner_embed);
-                                message.channel.send(`Giveaway zakonczony, wygral: ${winner}`)
-                            }
-                        }, 1000);
-                    }, actual_duration_hours);
-                }
+
+    // If the member doesn't have enough permissions
+    if(!message.member.hasPermission('MANAGE_MESSAGES') && !message.member.roles.cache.some((r) => r.name === "Giveaways")){
+        return message.channel.send(':x: Nie masz uprawnień do wykonania tej komendy.');
+    }
+
+    // Giveaway channel
+    let giveawayChannel = message.mentions.channels.first();
+    // If no channel is mentionned
+    if(!giveawayChannel){
+        return message.channel.send(':x: Oznacz kanał!!');
+    }
+
+    // Giveaway duration
+    let giveawayDuration = args[1];
+    // If the duration isn't valid
+    if(!giveawayDuration || isNaN(ms(giveawayDuration))){
+        return message.channel.send(':x: Podaj prawidłowy czas!');
+    }
+
+    // Number of winners
+    let giveawayNumberWinners = args[2];
+    // If the specified number of winners is not a number
+    if(isNaN(giveawayNumberWinners) || (parseInt(giveawayNumberWinners) <= 0)){
+        return message.channel.send(':x: Podaj prawidłową liczbę wygranych!');
+    }
+
+    // Giveaway prize
+    let giveawayPrize = args.slice(3).join(' ');
+    // If no prize is specified
+    if(!giveawayPrize){
+        return message.channel.send(':x: Podaj właściwą nagrodę!');
+    }
+
+    // Start the giveaway
+    client.giveawaysManager.start(giveawayChannel, {
+        // The giveaway duration
+        time: ms(giveawayDuration),
+        // The giveaway prize
+        prize: giveawayPrize,
+        // The giveaway winner count
+        winnerCount: giveawayNumberWinners,
+        // Who hosts this giveaway
+        hostedBy: client.config.hostedBy ? message.author : null,
+        // Messages
+        messages: {
+            giveaway: (client.config.everyoneMention ? "@everyone\n\n" : "")+"🎉 **GIVEAWAY** 🎉",
+            giveawayEnded: (client.config.everyoneMention ? "@everyone\n\n" : "")+"🎉 **GIVEAWAY ZAKOŃCZONY** 🎉",
+            timeRemaining: "Pozostało: **{duration}**!",
+            inviteToParticipate: "Zareaguj 🎉 by wziąć udział!",
+            winMessage: "Gratuluję, {winners}! Wygrałeś/wygraliście **{prize}**!",
+            embedFooter: "Giveaway",
+            noWinner: "Giveaway anulowany, nikt nie wziął udziału.",
+            hostedBy: "Stworzony przez: {user}",
+            winners: "wygrywa:",
+            endedAt: "Zakończony o:",
+            units: {
+                seconds: "sekund(y)",
+                minutes: "minut(y)",
+                hours: "godzin(y)",
+                days: "dzień(dni)",
+                pluralS: false // Not needed, because units end with a S so it will automatically removed if the unit value is lower than 2
             }
         }
-        const guild = client.guilds.cache.get('813728700083339274');
-        const channel = message.guild.channels.cache.get('814097618941771817');
-        let log = new MessageEmbed()
-        .setAuthor("Log! (/giveaway)")
-        .setDescription(`${message.member} stworzyl nowy giveaway na kanale ${message.channel}!`)
-        .setColor("#FF0000")
-        .setTimestamp();
-        channel.send(log);
+    });
+
+    message.channel.send(`Giveaway uruchomiony na: ${giveawayChannel}!`);
     }
-}
+
+};

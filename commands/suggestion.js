@@ -10,13 +10,14 @@ module.exports = {
         if(!channel) return message.channel.send('Kanał do propozycji nie instnieje!');
 
         const messageArgs = args.join(' ');
+        if (!messageArgs) return message.channel.send(`Podaj treść propozycji`);
         const embed = new Discord.MessageEmbed()
         .setColor('FADF2E')
         .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
         .setDescription(messageArgs)
         .setFooter("No dalej, zaglosuj!")
         .setTimestamp();
-        message.channel.send(`Twoja propozycja zostala wyslana!`);
+        message.channel.send(`Twoja propozycja została wysłana!`);
 
         channel.send(embed).then((msg) =>{
             msg.react('👍');

@@ -6,14 +6,14 @@ module.exports = {
     description: "Wycisza użytkownika",
     execute(client, message, cmd, args, Discord, MessageEmbed, prefix) {
         if(!message.member.hasPermission("KICK_MEMBERS")){
-            message.channel.send("Nie posiadasz uprawnien do korzystania z tej komendy!");
+            return message.channel.send("Nie posiadasz uprawnien do korzystania z tej komendy!");
         }
         const reason = args.slice(2).join(' ');
         if(!reason) {
             let reason = ("Brak!");
         }
         const target = message.mentions.users.first() || message.guild.members.cache.get(args[0]);
-        if(!target) return message.reply('Nie oznaczyles uzytkownika ktorego chcesz wyciszyc!');
+        if(!target) return message.reply('Nie oznaczyłeś użytkownika którego mam wyciszyć!');
         if (target) {
  
             let muteRole = message.guild.roles.cache.find(role => role.name === '𝙼𝚞𝚝𝚎𝚍');
@@ -22,12 +22,12 @@ module.exports = {
             let sicon = message.mentions.users.first().displayAvatarURL();
  
             if (!args[1]) return message.channel.send('Podaj czas wyciszenia');
-            if (!args[2]) return message.channel.send('Podaj powod wyciszenia');
+            if (!args[2]) return message.channel.send('Podaj powód wyciszenia');
             if (args[1]) {
             memberTarget.roles.add(muteRole.id);
             let embed = new MessageEmbed()
             .setAuthor(`Mute!`, sicon)
-            .setDescription(`Uzytkownik <@${memberTarget.user.id}> zostal wyciszony/a!`)
+            .setDescription(`Użytkownik <@${memberTarget.user.id}> został wyciszony(-a)!`)
             .addField(`Za:`, `${reason}`, true)
             .addField(`Na:`, `${ms(ms(args[1]))}`, true)
             .addField(`Przez:`, `${message.author}`)
@@ -37,7 +37,7 @@ module.exports = {
             message.channel.send(embed);
             let pw = new MessageEmbed()
             .setAuthor(`Mute! (Funny Discord)`, sicon)
-            .setDescription(`Zostales wyciszony/a!`)
+            .setDescription(`Zostales wyciszony(-a)!`)
             .addField(`Za:`, `${reason}`, true)
             .addField(`Na:`, `${ms(ms(args[1]))}`, true)
             .addField(`Przez:`, `${message.author}`)
@@ -65,11 +65,15 @@ module.exports = {
         }
         const guild = client.guilds.cache.get('813728700083339274');
         const channel = message.guild.channels.cache.get('814097618941771817');
+        let memberTarget = message.guild.members.cache.get(target.id);
         let log = new MessageEmbed()
-        .setAuthor("Log!")
-        .setDescription(`${message.member} wyciszyl uzytkownika ${target} na \`${ms(ms(args[1]))}\` za \`${reason}\`!`)
-        .setColor("#FF0000")
-        .setTimestamp();
+        .setAuthor("Log! (/mute)")
+            .setDescription(`Użytkownik <@${memberTarget.user.id}> został wyciszony(-a)!`)
+            .addField(`Za:`, `${reason}`, true)
+            .addField(`Na:`, `${ms(ms(args[1]))}`, true)
+            .addField(`Przez:`, `${message.author}`)
+            .setColor("#FF0000")
+            .setTimestamp();
         channel.send(log);
     }
 }

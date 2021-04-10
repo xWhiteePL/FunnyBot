@@ -14,6 +14,7 @@ module.exports = {
 
         if(warnings === null) warnings = 0;
 
-        message.channel.send(`**${user.author.tag}** posiada \`${warnings}\`ostrzeżeń(-a)`);
+        message.channel.send(`**${user}** posiada \`${warnings}\` ostrzeżeń(-a)`);
+        message.delete();
     }
 }

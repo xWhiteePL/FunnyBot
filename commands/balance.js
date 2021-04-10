@@ -17,7 +17,7 @@ module.exports = {
 
   let moneyEmbed = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
-  .setDescription(`**Konto ${user.username.tag}**\n\nPortfel: ${bal}\nBank: ${bank}`);
+  .setDescription(`**Konto ${user}**\n\nPortfel: ${bal}\nBank: ${bank}`);
   message.channel.send(moneyEmbed)
     }
 };

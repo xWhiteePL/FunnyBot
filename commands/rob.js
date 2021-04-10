@@ -24,7 +24,7 @@ if (author !== null && timeout - (Date.now() - author) > 0) {
 
 let moneyEmbed = new Discord.MessageEmbed()
   .setColor("#FFFFFF")
-  .setDescription(`Musisz posiadać conajmniej 200FC by kogoś okraść`);
+  .setDescription(`Osoba którą chcesz okraść musi posiadać conajmniej 200FC`);
 
 if (author2 < 200) {
     return message.channel.send(moneyEmbed)

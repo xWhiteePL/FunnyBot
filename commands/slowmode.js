@@ -11,17 +11,17 @@ if (!channel) {
 }
 
 // Check type and viewable
-if (channel.type != 'text' || !channel.viewable) return message.channel.send('Oznacz lub podaj id kanalu.')
+if (channel.type != 'text' || !channel.viewable) return message.channel.send('Oznacz lub podaj id kanału.')
   
 const rate = args[index];
-if (!rate || rate < 0 || rate > 59) return message.channel.send('Podaj czas od 1 do 59 sekund.')
+if (!rate || rate < 0 || rate > 120) return message.channel.send('Podaj czas od 1 do 120 sekund.')
 
 // Check channel permissions
 if (!channel.permissionsFor(message.guild.me).has(['MANAGE_CHANNELS']))
   return this.sendErrorMessage(message, 0, 'Nie mam permisji by zmienic cooldown na tym kanale.');
 
 let reason = args.slice(index + 1).join(' ');
-if (!reason) reason = '`Nie podano, ale pewnie spam`';
+if (!reason) reason = '`Nie podano`';
 if (reason.length > 1024) reason = reason.slice(0, 1021) + '...';
 
 await channel.setRateLimitPerUser(rate, reason); // set channel rate
@@ -37,8 +37,8 @@ if (rate === '0') {
   message.channel.send(embed
     .setDescription(`\`${status}\` ➔ \`OFF\``)
     .addField('Moderator', message.member, true)
-    .addField('Kanal', channel, true)
-    .addField('Powod', reason)
+    .addField('Kanał', channel, true)
+    .addField('Powód', reason)
   );
 
   // Slowmode enabled
@@ -47,16 +47,17 @@ if (rate === '0') {
   message.channel.send(embed
     .setDescription(`\`${status}\` ➔ \`ON\``)
     .addField('Moderator', message.member, true)
-    .addField('Kanal', channel, true)
+    .addField('Kanał', channel, true)
     .addField('Czas', `\`${rate}\``, true)
-    .addField('Powod', reason)
+    .addField('Powód', reason)
   );
   message.delete();
   const guild = client.guilds.cache.get('813728700083339274');
   const channell = message.guild.channels.cache.get('814097618941771817');
   let log = new MessageEmbed()
   .setAuthor("Log!")
-  .setDescription(`${message.member} wlaczyl slowmode na kanale ${message.channel} z opoznieniem \`${rate}s\` `)
+  .setDescription(`${message.member} wlaczyl slowmode na kanale ${message.channel}`)
+  .addField(`Z opóźnieniem`, `\`${rate}s\``)
   .setColor("#FF0000")
   .setTimestamp();
   channell.send(log);
